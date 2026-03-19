@@ -1,87 +1,112 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title', 'E-Commerce Store')</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <title>Dashboard - Modern Sports Retail</title>
+    <link rel="preconnect" href="https://fonts.bunny.net">
+    <link href="https://fonts.bunny.net/css?family=inter:400,500,600,700" rel="stylesheet" />
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+    </style>
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body class="bg-gray-100">
-    <!-- Navigation -->
-    <nav class="bg-white shadow-lg">
-        <div class="max-w-7xl mx-auto px-4">
+<body class="bg-gray-50 text-gray-900 antialiased flex flex-col min-h-screen">
+
+    <!-- Topbar -->
+    <div class="bg-black text-white text-xs py-2 px-6 flex justify-between items-center">
+        <div class="flex space-x-4">
+            <a href="#" class="hover:text-gray-300">Help</a>
+            <a href="#" class="hover:text-gray-300">Find a Store</a>
+        </div>
+        <div class="flex space-x-4 items-center">
+            <span><i class="fa-solid fa-globe mr-1"></i> EN | KH</span>
+        </div>
+    </div>
+
+    <!-- Sticky Header -->
+    <header class="bg-white border-b border-gray-200 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-16">
-                <div class="flex items-center space-x-8">
-                    <a href="/" class="text-xl font-semibold">My Store</a>
-                    <a href="/" class="text-gray-700 hover:text-gray-900">Home</a>
-                    <a href="/products" class="text-gray-700 hover:text-gray-900">Shop</a>
-                </div>
-                
-                <div class="flex items-center space-x-4">
-                    <!-- Search -->
-                    <form action="/search" method="GET" class="relative">
-                        <input type="text" name="search" placeholder="Search products..." 
-                               class="border rounded-lg px-4 py-2 pl-10 focus:outline-none focus:border-blue-500">
-                        <i class="fas fa-search absolute left-3 top-3 text-gray-400"></i>
-                    </form>
-                    
-                    <!-- Cart -->
-                    <a href="/cart" class="relative">
-                        <i class="fas fa-shopping-cart text-2xl text-gray-700"></i>
-                        @auth
-                            @php
-                                $cartCount = \App\Models\Cart::where('user_id', Auth::id())->count();
-                            @endphp
-                            @if($cartCount > 0)
-                                <span class="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs">
-                                    {{ $cartCount }}
-                                </span>
-                            @endif
-                        @endauth
+                <!-- Logo -->
+                <div class="flex-shrink-0 flex items-center">
+                    <a href="/" class="text-2xl font-bold tracking-tighter uppercase">
+                        Sport<span class="text-red-600">Fit</span>
                     </a>
+                </div>
+
+                <!-- Navigation Menu -->
+                @include('partials.navbar-links')
+
+                <!-- Actions -->
+                <div class="flex items-center space-x-6">
+                    <!-- Search -->
+                    <div class="hidden lg:flex relative">
+                        <input type="text" class="bg-gray-100 rounded-full py-2 pl-10 pr-4 focus:outline-none focus:ring-2 focus:ring-gray-300 w-48 transition-all" placeholder="Search...">
+                        <i class="fa-solid fa-magnifying-glass absolute left-4 top-3 text-gray-500"></i>
+                    </div>
                     
-                    <!-- Profile / Auth -->
                     @auth
-                        <div class="relative group">
-                            <button class="flex items-center space-x-2">
-                                <i class="fas fa-user-circle text-2xl text-gray-700"></i>
-                                <span>{{ Auth::user()->username }}</span>
+                        <a href="{{ url('/dashboard') }}" class="text-gray-700 hover:text-black transition-colors" title="Dashboard"><i class="fa-regular fa-user text-xl"></i></a>
+                        <form method="POST" action="{{ route('logout') }}" class="inline">
+                            @csrf
+                            <button type="submit" class="text-gray-700 hover:text-red-600 transition-colors" title="Log Out">
+                                <i class="fa-solid fa-arrow-right-from-bracket text-xl"></i>
                             </button>
-                            <div class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg hidden group-hover:block">
-                                <a href="/profile" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Profile</a>
-                                <a href="/orders/history" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">My Orders</a>
-                                <form method="POST" action="/logout">
-                                    @csrf
-                                    <button type="submit" class="block w-full text-left px-4 py-2 text-gray-800 hover:bg-gray-100">
-                                        Logout
-                                    </button>
-                                </form>
-                            </div>
-                        </div>
+                        </form>
                     @else
-                        <a href="/login" class="text-gray-700 hover:text-gray-900">Login</a>
-                        <a href="/register" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">Register</a>
+                        <a href="{{ route('login') }}" class="text-sm font-medium text-gray-700 hover:text-black transition-colors">Log in</a>
+                        @if (Route::has('register'))
+                            <a href="{{ route('register') }}" class="text-sm font-medium text-white bg-black px-4 py-2 rounded hover:bg-gray-800 transition-colors">Register</a>
+                        @endif
                     @endauth
+                    <a href="#" class="text-gray-700 hover:text-black transition-colors"><i class="fa-regular fa-heart text-xl"></i></a>
+                    <a href="#" class="text-gray-700 hover:text-black transition-colors relative">
+                        <i class="fa-solid fa-bag-shopping text-xl"></i>
+                        <span class="absolute -top-1 -right-2 bg-red-600 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full">3</span>
+                    </a>
                 </div>
             </div>
         </div>
-    </nav>
+    </header>
 
-    <!-- Main Content -->
-    <main class="py-8">
-        @yield('content')
+    <!-- Page Heading -->
+    @isset($header)
+        <header class="bg-white shadow-sm">
+            <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+                {{ $header }}
+            </div>
+        </header>
+    @endisset
+
+    <!-- Page Content -->
+    <main class="flex-grow max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-8">
+        {{ $slot }}
     </main>
 
-    <!-- Footer -->
-    <footer class="bg-white mt-12 py-8">
-        <div class="max-w-7xl mx-auto px-4 text-center text-gray-600">
-            <p>COMPANY NAME</p>
-            <p>Address: No. 86A, Street 110, Russian Federation Blvd (110), Phnom Penh</p>
-            <p>Email: company@gmail.com | Phone: +885 0962 460 507</p>
+    <!-- Simple Footer -->
+    <footer class="bg-black text-white mt-auto py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-2 md:grid-cols-4 gap-8">
+            <div>
+                <h4 class="font-bold uppercase mb-4">Products</h4>
+                <ul class="space-y-2 text-sm text-gray-400">
+                    <li><a href="#" class="hover:text-white">Shoes</a></li>
+                    <li><a href="#" class="hover:text-white">Clothing</a></li>
+                    <li><a href="#" class="hover:text-white">Accessories</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="font-bold uppercase mb-4">Support</h4>
+                <ul class="space-y-2 text-sm text-gray-400">
+                    <li><a href="#" class="hover:text-white">Order Status</a></li>
+                    <li><a href="#" class="hover:text-white">Shipping</a></li>
+                    <li><a href="#" class="hover:text-white">Returns</a></li>
+                </ul>
+            </div>
         </div>
     </footer>
-
-    @stack('scripts')
 </body>
 </html>

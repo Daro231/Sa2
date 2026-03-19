@@ -1,53 +1,57 @@
-@extends('layouts.app')
+<x-auth-modern-layout
+    title="Sign In"
+    subtitle="Welcome back to your workspace"
+    heading="Hello, Friend!"
+    description="Enter your personal details and start your journey with us."
+    switchText="Don't have an account?"
+    switchButton="Create Account"
+    switchLink="{{ route('register') }}"
+    mobileDescription="Sign in to your account"
+>
+    <!-- Session Status -->
+    <x-auth-session-status class="mb-4" :status="session('status')" />
 
-@section('title', 'Login')
-
-@section('content')
-<div class="max-w-md mx-auto bg-white rounded-lg shadow-lg p-8">
-    <h1 class="text-3xl font-bold mb-2">Hello, Welcome!</h1>
-    <p class="text-gray-600 mb-6">Don't have an account? 
-        <a href="/register" class="text-blue-500 hover:text-blue-600">Register</a>
-    </p>
-
-    <h2 class="text-2xl font-semibold mb-6">Login</h2>
-
-    <form method="POST" action="/login">
+    <form method="POST" action="{{ route('login') }}" class="space-y-4">
         @csrf
+
+        <!-- Email Address -->
+        <div>
+            <input id="email" class="glass-input" type="email" name="email" value="{{ old('email') }}" required autofocus autocomplete="username" placeholder="Email Address" />
+            <x-input-error :messages="$errors->get('email')" class="mt-2 text-red-400" />
+        </div>
+
+        <!-- Password -->
+        <div>
+            <input id="password" class="glass-input" type="password" name="password" required autocomplete="current-password" placeholder="Password" />
+            <x-input-error :messages="$errors->get('password')" class="mt-2 text-red-400" />
+        </div>
+
+        <!-- Remember Me & Forgot Password -->
+        <div class="flex items-center justify-between text-sm mt-3">
+            <label for="remember_me" class="inline-flex items-center cursor-pointer">
+                <input id="remember_me" type="checkbox" class="rounded border-none bg-white/10 text-indigo-500 shadow-sm focus:ring-0 focus:ring-offset-0" name="remember">
+                <span class="ms-2 text-slate-300 font-medium">{{ __('Remember me') }}</span>
+            </label>
+
+            @if (Route::has('password.request'))
+                <a class="text-indigo-400 hover:text-indigo-300 font-medium transition" href="{{ route('password.request') }}">
+                    {{ __('Forgot password?') }}
+                </a>
+            @endif
+        </div>
+
+        <div class="mt-8">
+            <button type="submit" class="glass-btn">
+                {{ __('Let\'s Go') }}
+            </button>
+        </div>
         
-        <div class="mb-4">
-            <label for="username" class="block text-gray-700 mb-2">Username</label>
-            <input type="text" name="username" id="username" 
-                   class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:border-blue-500 @error('username') border-red-500 @enderror"
-                   value="{{ old('username') }}" required>
-            @error('username')
-                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-            @enderror
+        <!-- Mobile Switch to Register -->
+        <div class="mt-8 text-center lg:hidden">
+            <p class="text-slate-400 text-sm">
+                Don't have an account? 
+                <a href="{{ route('register') }}" class="text-white hover:text-indigo-300 font-semibold ml-1 transition">Create one</a>
+            </p>
         </div>
-
-        <div class="mb-4">
-            <label for="password" class="block text-gray-700 mb-2">Password</label>
-            <input type="password" name="password" id="password" 
-                   class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:border-blue-500 @error('password') border-red-500 @enderror"
-                   required>
-            @error('password')
-                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-            @enderror
-        </div>
-
-        <div class="text-right mb-6">
-            <a href="#" class="text-sm text-gray-600 hover:text-gray-800">Forget password?</a>
-        </div>
-
-        <button type="submit" class="w-full bg-blue-500 text-white font-semibold py-3 rounded-lg hover:bg-blue-600 transition duration-200">
-            LOGIN
-        </button>
     </form>
-
-    <div class="mt-6 text-center">
-        <p class="text-gray-600 mb-4">or login with social platforms</p>
-        <div class="flex justify-center space-x-4">
-            <!-- Social login buttons would go here -->
-        </div>
-    </div>
-</div>
-@endsection
+</x-auth-modern-layout>
