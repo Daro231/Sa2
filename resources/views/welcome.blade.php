@@ -51,6 +51,9 @@
                     </div>
                     
                     @auth
+                        @if(auth()->user()->isAdmin)
+                            <a href="{{ route('admin.dashboard') }}" class="text-gray-700 hover:text-red-600 transition-colors mr-2" title="Admin Panel"><i class="fa-solid fa-lock text-xl"></i></a>
+                        @endif
                         <a href="{{ url('/dashboard') }}" class="text-gray-700 hover:text-black transition-colors" title="Dashboard"><i class="fa-regular fa-user text-xl"></i></a>
                         <form method="POST" action="{{ route('logout') }}" class="inline">
                             @csrf
@@ -133,7 +136,7 @@
                 </div>
                 
                 <!-- Size -->
-                <div class="mb-6 pb-6 border-b border-gray-200">
+                {{-- <div class="mb-6 pb-6 border-b border-gray-200">
                     <h3 class="font-bold mb-4 text-sm uppercase tracking-wider">Size</h3>
                     <div class="grid grid-cols-4 gap-2">
                         <button class="border border-gray-300 py-2 text-sm hover:border-black">S</button>
@@ -153,7 +156,7 @@
                         <button class="w-8 h-8 rounded-full bg-red-600 hover:ring-2 ring-offset-2 ring-red-600"></button>
                         <button class="w-8 h-8 rounded-full bg-gray-400 hover:ring-2 ring-offset-2 ring-gray-400"></button>
                     </div>
-                </div>
+                </div> --}}
 
                 <!-- Price -->
                 <div class="mb-6 pb-6 border-b border-gray-200">

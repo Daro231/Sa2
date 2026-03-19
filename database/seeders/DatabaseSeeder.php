@@ -13,13 +13,12 @@ class DatabaseSeeder extends Seeder
     {
         // Create test user
         User::create([
-            'username' => 'testuser',
+            'name' => 'TestAdmin',
             'email' => 'test@example.com',
             'password' => Hash::make('password'),
-            'full_name' => 'Test User',
-            'phone_number' => '0123456789',
+            'isAdmin' => true,
+            'phone' => '0123456789',
             'address' => '123 Test Street',
-            'zip_code' => '12345'
         ]);
 
         // Create sample products

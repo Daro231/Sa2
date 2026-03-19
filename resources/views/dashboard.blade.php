@@ -10,6 +10,13 @@
                     <li><a href="#" class="text-gray-600 hover:text-black flex items-center transition-colors"><i class="fa-solid fa-heart h-4 w-6"></i> Wishlist</a></li>
                     <li><a href="{{ route('profile.edit') }}" class="text-gray-600 hover:text-black flex items-center transition-colors"><i class="fa-solid fa-user h-4 w-6"></i> Profile Settings</a></li>
                     <li><a href="#" class="text-gray-600 hover:text-black flex items-center transition-colors"><i class="fa-solid fa-location-dot h-4 w-6"></i> Addresses</a></li>
+                    @if(Auth::user()->isAdmin)
+                        <li class="pt-4 border-t mt-4">
+                            <a href="{{ route('admin.dashboard') }}" class="text-red-600 font-bold hover:text-red-700 flex items-center transition-colors">
+                                <i class="fa-solid fa-lock h-4 w-6"></i> Admin Panel
+                            </a>
+                        </li>
+                    @endif
                 </ul>
             </div>
         </aside>
