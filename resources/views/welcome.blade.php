@@ -70,7 +70,7 @@
                     <a href="#" class="text-gray-700 hover:text-black transition-colors"><i class="fa-regular fa-heart text-xl"></i></a>
                     <a href="#" class="text-gray-700 hover:text-black transition-colors relative">
                         <i class="fa-solid fa-bag-shopping text-xl"></i>
-                        <span class="absolute -top-1 -right-2 bg-red-600 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full">3</span>
+                        {{-- <span class="absolute -top-1 -right-2 bg-red-600 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full">3</span> --}}
                     </a>
                 </div>
             </div>

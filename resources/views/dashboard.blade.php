@@ -45,7 +45,7 @@
                     </div>
                     <div>
                         <p class="text-sm text-gray-500 font-medium whitespace-nowrap">Saved Items</p>
-                        <p class="text-2xl font-bold text-gray-900">3</p>
+                        {{-- <p class="text-2xl font-bold text-gray-900"></p> --}}
                     </div>
                 </div>
                 <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-100 flex items-center space-x-4">

@@ -12,7 +12,11 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->alias([
+<<<<<<< Updated upstream
             'admin' => \App\Http\Middleware\AdminMiddleware::class,
+=======
+            'admin' => \App\Http\Middleware\EnsureUserIsAdmin::class,
+>>>>>>> Stashed changes
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {

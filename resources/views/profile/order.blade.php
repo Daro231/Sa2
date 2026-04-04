@@ -52,7 +52,7 @@
                             <!-- Order Header -->
                             <div class="bg-gray-50 px-6 py-4 flex flex-wrap items-center justify-between">
                                 <div>
-                                    <span class="text-sm text-gray-600">Order #</span>
+                                    <span class="text-sm text-gray-600">Order</span>
                                     <span class="font-medium text-gray-900">{{ $order->order_number }}</span>
                                 </div>
                                 <div class="flex items-center space-x-4">
